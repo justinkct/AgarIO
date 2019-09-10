@@ -23,6 +23,7 @@ public class Food : MonoBehaviour
 
     private void OnDestroy()
     {
+        SpawnManager.instance.RemoveFromList(transform);
         SpawnManager.instance.foodCount--;
     }
 

@@ -144,6 +144,7 @@ MonoBehaviour:
   food: {fileID: 7850571925423200777, guid: e180ce6867ffe3c4497c64f43070813e, type: 3}
   foodCount: 0
   spawnInterval: 1
+  foodList: []
 --- !u!4 &299795940
 Transform:
   m_ObjectHideFlags: 0
@@ -473,6 +474,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cf88ce4067ac5240931f0bb8f11f936, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 1184461392}
+  aggroRange: 15
 --- !u!114 &1184461392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -486,7 +489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb2d: {fileID: 1184461390}
-  movementSpeed: 0.3
+  movementSpeed: 0.1
 --- !u!212 &1184461393
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ public class SpawnManager : MonoBehaviour
     public Transform food;
     public int foodCount;
     public float spawnInterval = 1.0f;
+    public List<Transform> foodList;
 
     private float timeLastSpawned;
 
@@ -37,7 +38,13 @@ public class SpawnManager : MonoBehaviour
 
     public void SpawnFood()
     {
-        Instantiate(food, new Vector2(Random.Range(-40.0f, 33.0f), Random.Range(-19.0f, 18.0f)), Quaternion.identity);
+        Transform foodToAdd = Instantiate(food, new Vector2(Random.Range(-40.0f, 33.0f), Random.Range(-19.0f, 18.0f)), Quaternion.identity);
+        foodList.Add(foodToAdd);
         foodCount++;
+    }
+
+    public void RemoveFromList(Transform foodToRemove)
+    {
+        foodList.Remove(foodToRemove);
     }
 }

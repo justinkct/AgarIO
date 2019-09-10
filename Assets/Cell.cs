@@ -72,7 +72,8 @@ public class Cell : MonoBehaviour
     public void Eat(Food food)
     {
         Grow();
-        GameManager.instance.AddScore(1);
+        if (CompareTag("Player"))
+            GameManager.instance.AddScore(1);
         Destroy(food.gameObject);
     }
 }
