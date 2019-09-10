@@ -27,11 +27,4 @@ public class Food : MonoBehaviour
         SpawnManager.instance.foodCount--;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (!CompareTag(other.tag) && other.tag != "Untagged")
-        {
-            other.GetComponent<Cell>().Eat(this);
-        }
-    }
 }

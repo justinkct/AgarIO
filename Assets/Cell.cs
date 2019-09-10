@@ -76,4 +76,30 @@ public class Cell : MonoBehaviour
             GameManager.instance.AddScore(1);
         Destroy(food.gameObject);
     }
+
+    public void Eat(Cell targetCell)
+    {
+        if (transform.localScale.x - targetCell.transform.localScale.x > 0.1f)
+        {
+            Grow();
+            Destroy(targetCell.gameObject);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (CompareTag("Player"))
+            GameManager.instance.RecordScore();
+        else
+            SpawnManager.instance.enemyCount--;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Foods")
+            Eat(other.GetComponent<Food>());
+        else
+            if (!CompareTag(other.tag) && other.tag != "Untagged")
+                Eat(other.GetComponent<Cell>());
+    }
 }

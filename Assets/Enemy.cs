@@ -5,7 +5,8 @@ using UnityEngine;
 enum EnemyFSM
 {
     Patrol,
-    Chase
+    Chase,
+    Search
 }
 
 public class Enemy : MonoBehaviour
@@ -15,10 +16,13 @@ public class Enemy : MonoBehaviour
     public Cell enemy;
     public float aggroRange;
 
+    public Vector2 patrolTarget;
+
     // Start is called before the first frame update
     void Start()
     {
         enemyState = EnemyFSM.Patrol;
+        patrolTarget = new Vector2(Random.Range(-40.0f, 33.0f), Random.Range(-19.0f, 18.0f));
     }
 
     // Update is called once per frame
@@ -31,30 +35,46 @@ public class Enemy : MonoBehaviour
         switch (enemyState)
         {
             case EnemyFSM.Chase:
-                if (distance < aggroRange)
-                    enemy.Move(playerPos);
-                else
+                enemy.Move(playerPos);
+                if (distance >= aggroRange)
                     enemyState = EnemyFSM.Patrol;
                 break;
             case EnemyFSM.Patrol:
-                Transform temp = null;
-                float minDistance = Mathf.Infinity;
-                if (distance >= aggroRange)
-                {
-                    foreach (Transform t in foods)
-                    {
-                        float foodDistance = Vector3.Distance(transform.position, t.position);
-                        if (foodDistance < minDistance)
-                        {
-                            temp = t;
-                            minDistance = foodDistance;
-                        }
-                    }
-                    enemy.Move(temp.position);
-                }
-                else
+                if (distance < aggroRange)
                     enemyState = EnemyFSM.Chase;
+                if (SearchFood(foods) != null)
+                    enemyState = EnemyFSM.Search;
+                 if ((Vector2)transform.position == patrolTarget)
+                    patrolTarget = new Vector2(Random.Range(-40.0f, 33.0f), Random.Range(-19.0f, 18.0f));
+                 enemy.Move(patrolTarget);
+                break;
+            case EnemyFSM.Search:
+                if (distance < aggroRange)
+                    enemyState = EnemyFSM.Chase;
+                if (SearchFood(foods) == null)
+                    enemyState = EnemyFSM.Patrol;
+                else
+                    enemy.Move(SearchFood(foods).position);
                 break;
         }   
+    }
+
+    public Transform SearchFood(List<Transform> foods)
+    {
+        Transform temp = null;
+        float minDistance = Mathf.Infinity;
+
+        foreach (Transform t in foods)
+        {
+            float foodDistance = Vector3.Distance(transform.position, t.position);
+
+            if (foodDistance < minDistance && foodDistance < 5.0f)
+            {
+                temp = t;
+                minDistance = foodDistance;
+            }
+        }
+
+        return temp;
     }
 }

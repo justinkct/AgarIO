@@ -5,11 +5,15 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public Transform food;
+    public Transform enemy;
     public int foodCount;
-    public float spawnInterval = 1.0f;
+    public int enemyCount;
+    public float foodInterval = 1.0f;
+    public float enemyInterval = 10.0f;
     public List<Transform> foodList;
 
-    private float timeLastSpawned;
+    private float foodLastSpawned;
+    private float enemyLastSpawned;
 
     public static SpawnManager instance;
 
@@ -24,15 +28,22 @@ public class SpawnManager : MonoBehaviour
         {
             SpawnFood();
         }
-        timeLastSpawned = Time.time;
+        SpawnEnemy();
+        foodLastSpawned = Time.time;
+        enemyLastSpawned = Time.time;
     }
 
     void Update()
     {
-        if (Time.time - timeLastSpawned >= spawnInterval && foodCount < 100)
+        if (Time.time - foodLastSpawned >= foodInterval && foodCount < 100)
         {
             SpawnFood();
-            timeLastSpawned = Time.time;
+            foodLastSpawned = Time.time;
+        }
+        if (Time.time - enemyLastSpawned >= enemyInterval && enemyCount < 3)
+        {
+            SpawnEnemy();
+            enemyLastSpawned = Time.time;
         }
     }
 
@@ -46,5 +57,11 @@ public class SpawnManager : MonoBehaviour
     public void RemoveFromList(Transform foodToRemove)
     {
         foodList.Remove(foodToRemove);
+    }
+
+    public void SpawnEnemy()
+    {
+        Instantiate(enemy, new Vector2(Random.Range(-40.0f, 33.0f), Random.Range(-19.0f, 18.0f)), Quaternion.identity);
+        enemyCount++;
     }
 }
