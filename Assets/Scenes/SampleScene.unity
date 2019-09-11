@@ -797,7 +797,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb2d: {fileID: 2040672717}
-  movementSpeed: 0.3
+  movementSpeed: 0.31
 --- !u!212 &2040672720
 SpriteRenderer:
   m_ObjectHideFlags: 0
