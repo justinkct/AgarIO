@@ -12,6 +12,8 @@ public class SpawnManager : MonoBehaviour
     public float enemyInterval = 10.0f;
     public List<Transform> foodList;
 
+    [SerializeField] Transform foodParent;
+
     private float foodLastSpawned;
     private float enemyLastSpawned;
 
@@ -50,6 +52,7 @@ public class SpawnManager : MonoBehaviour
     public void SpawnFood()
     {
         Transform foodToAdd = Instantiate(food, new Vector2(Random.Range(-40.0f, 33.0f), Random.Range(-19.0f, 18.0f)), Quaternion.identity);
+        foodToAdd.SetParent(foodParent);
         foodList.Add(foodToAdd);
         foodCount++;
     }
